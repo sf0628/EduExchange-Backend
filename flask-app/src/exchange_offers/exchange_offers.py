@@ -9,7 +9,8 @@ exchange_offers = Blueprint('exchange_offers', __name__)
 def get_all_exchange_books():
     cursor = db.get_db().cursor()
     cursor.execute('''
-    SELECT textbooks.TextbookID, textbooks.Title, textbooks.Author, textbooks.ISBN, ExchangeOffer.Price, ExchangeOffer.ConditionState
+    SELECT textbooks.TextbookID, textbooks.Title, textbooks.Author, textbooks.ISBN, 
+           ExchangeOffer.OfferID, ExchangeOffer.Price, ExchangeOffer.ConditionState
     FROM textbooks
     JOIN ExchangeOffer ON ExchangeOffer.TextbookID = textbooks.TextbookID
     ORDER BY textbooks.Title
@@ -20,6 +21,7 @@ def get_all_exchange_books():
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
+
 
 
 @exchange_offers.route('/user_textbooks/<int:user_id>', methods=['GET'])
@@ -39,8 +41,9 @@ def get_user_textbooks(user_id):
     return jsonify(json_data)
 
 
-@exchange_offers.route('/post_exchange/<userID>', methods=['POST'])
-def post_exchange2(userID):
+@exchange_offers.route('/post_exchange/<int:user_id>', methods=['POST'])
+def post_exchange2(user_id):
+    print("post_exchanged called")
     # Collecting data from the request JSON
     data = request.get_json()
     current_app.logger.info(data)
@@ -62,33 +65,55 @@ def post_exchange2(userID):
 
     # Executing and committing the insert statement
     cursor = db.get_db().cursor()
-    cursor.execute(query, (title, author, isbn, userID, condition, price))
+    cursor.execute(query, (title, author, isbn, user_id, condition, price))
     db.get_db().commit()
 
     return jsonify({'success': 'Exchange offer posted successfully'})
 
-@exchange_offers.route('/donate_material', methods=['PUT'])
-def donate_material():
-    try:
-        user_id = request.json.get('user_id')
-        textbook_id = request.json.get('textbook_id')
 
-        query = '''
-        UPDATE ExchangeOffer 
-        SET Price = 0 
-        WHERE UserID = %s AND TextbookID = %s;
-        '''
-        cursor = db.get_db().cursor()
-        cursor.execute(query, (user_id, textbook_id))
-        db.get_db().commit()
-        
-        return jsonify({'success': 'Material donated successfully'}), 200
-    except MySQLError as e:
-        # Log the error for debugging
-        print(f"Database Error: {e}")
-        return jsonify({'error': 'Failed to update the material'}), 500
-    except Exception as e:
-        # Log the error for debugging
-        print(f"General Error: {e}")
-        return jsonify({'error': 'An unexpected error occurred'}), 500
+@exchange_offers.route('/update_condition', methods=['PUT'])
+def update_textbook_condition():
+    print("Received data:", request.json)  # Debug line to check what's received
+    condition_info = request.json
+    if 'offer_id' not in condition_info or 'new_condition' not in condition_info:
+        return jsonify({'error': 'Both offer_id and new_condition are required'}), 400
+
+    offer_id = condition_info['offer_id']
+    new_condition = condition_info['new_condition']
+
+    query = '''
+    UPDATE ExchangeOffer
+    SET ConditionState = %s
+    WHERE OfferID = %s;
+    '''
+    cursor = db.get_db().cursor()
+    r = cursor.execute(query, (new_condition, offer_id))
+    db.get_db().commit()
+    
+    if r:
+        return jsonify({'success': 'Condition updated successfully'}), 200
+    else:
+        return jsonify({'error': 'No records updated, check your offer_id'}), 404
+    
+
+@exchange_offers.route('/remove_textbook', methods=['DELETE'])
+def remove_textbook_from_exchange():
+    offer_id = request.json.get('offer_id')
+    
+    if not offer_id:
+        return jsonify({'error': 'Missing offer ID'}), 400
+
+    query = '''
+    DELETE FROM ExchangeOffer
+    WHERE OfferID = %s;
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (offer_id,))
+    db.get_db().commit()
+    
+    return jsonify({'success': 'Textbook removed successfully'}), 200
+
+
+
+
 

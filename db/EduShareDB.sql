@@ -112,7 +112,8 @@ INSERT INTO User (Name, Email) VALUES
 
 INSERT INTO textbooks (ISBN, Author, Title) VALUES
 ('978-0-13-6083', 'Robert Sedgewick', 'Algorithms'),
-('978-0-07-0324', 'Abraham Silberschatz', 'Database System');
+('978-0-07-0324', 'Abraham Silberschatz', 'Database System'),
+
 
 
 INSERT INTO Wishlist (UserID, TextbookID) VALUES
