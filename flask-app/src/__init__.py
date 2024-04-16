@@ -40,7 +40,7 @@ def create_app():
 
     # Register the routes from each Blueprint with the app object
     # and give a url prefix to each
-    app.register_blueprint(exchange_offers, url_prefix='/e')
+    app.register_blueprint(exchange_offers, url_prefix='/eo')
     app.register_blueprint(textbooks, url_prefix='/t')
     app.register_blueprint(online_resources, url_prefix='/o')
     #app.register_blueprint(wishlist, url_prefix='/w')
