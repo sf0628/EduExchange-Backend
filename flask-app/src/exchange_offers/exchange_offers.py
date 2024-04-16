@@ -23,7 +23,6 @@ def get_all_exchange_books():
     return jsonify(json_data)
 
 
-
 @exchange_offers.route('/user_textbooks/<int:user_id>', methods=['GET'])
 def get_user_textbooks(user_id):
     cursor = db.get_db().cursor()

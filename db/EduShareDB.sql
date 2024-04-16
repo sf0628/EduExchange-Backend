@@ -20,12 +20,21 @@ CREATE TABLE IF NOT EXISTS `edusharehub`.`textbooks` (
 -- Wishlist Table
 CREATE TABLE IF NOT EXISTS  `edusharehub`.`Wishlist` (
   WishlistID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(50) NOT NULL, 
   UserID INT NOT NULL,
-  TextbookID INT NOT NULL,
   FOREIGN KEY (UserID) REFERENCES User(UserID),
+);
+
+-- Wishlist Item Table
+CREATE TABLE IF NOT EXISTS WishlistItem (
+  WishlistItemID INT AUTO_INCREMENT PRIMARY KEY,
+  WishlistID INT NOT NULL,
+  TextbookID INT NOT NULL,
+  FOREIGN KEY (WishlistID) REFERENCES Wishlist(WishlistID),
   FOREIGN KEY (TextbookID) REFERENCES textbooks(TextbookID)
 );
 
+-- Exchange Offer Table
 CREATE TABLE IF NOT EXISTS `edusharehub`.`ExchangeOffer` (
   OfferID INT AUTO_INCREMENT PRIMARY KEY,
   TextbookID INT NOT NULL,
@@ -112,8 +121,7 @@ INSERT INTO User (Name, Email) VALUES
 
 INSERT INTO textbooks (ISBN, Author, Title) VALUES
 ('978-0-13-6083', 'Robert Sedgewick', 'Algorithms'),
-('978-0-07-0324', 'Abraham Silberschatz', 'Database System'),
-
+('978-0-07-0324', 'Abraham Silberschatz', 'Database System');
 
 
 INSERT INTO Wishlist (UserID, TextbookID) VALUES
