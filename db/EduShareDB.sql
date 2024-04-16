@@ -14,15 +14,17 @@ CREATE TABLE IF NOT EXISTS `edusharehub`.`textbooks` (
   TextbookID INT AUTO_INCREMENT PRIMARY KEY,
   ISBN CHAR(13) NOT NULL UNIQUE,
   Author VARCHAR(255) NOT NULL,
-  Title VARCHAR(255) NOT NULL
+  Title VARCHAR(255) NOT NULL,
+  UserID INT NOT NULL,
+  FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
 
 -- Wishlist Table
 CREATE TABLE IF NOT EXISTS  `edusharehub`.`Wishlist` (
   WishlistID INT AUTO_INCREMENT PRIMARY KEY,
-  Name VARCHAR(50) NOT NULL, 
+  Name VARCHAR(50) NOT NULL,
   UserID INT NOT NULL,
-  FOREIGN KEY (UserID) REFERENCES User(UserID),
+  FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
 
 -- Wishlist Item Table
@@ -119,14 +121,14 @@ INSERT INTO User (Name, Email) VALUES
 ('Morgan Rivera', 'morgan.rivera@university.edu');
 
 
-INSERT INTO textbooks (ISBN, Author, Title) VALUES
-('978-0-13-6083', 'Robert Sedgewick', 'Algorithms'),
-('978-0-07-0324', 'Abraham Silberschatz', 'Database System');
+INSERT INTO textbooks (ISBN, Author, Title, UserID) VALUES
+('978-0-13-6083', 'Robert Sedgewick', 'Algorithms', 1),
+('978-0-07-0324', 'Abraham Silberschatz', 'Database System', 1);
 
 
-INSERT INTO Wishlist (UserID, TextbookID) VALUES
-(1, 1),
-(2, 2);
+INSERT INTO Wishlist (UserID, Name) VALUES
+(1, 'My Favorite Textbooks'),
+(2, 'Study Materials');
 
 
 INSERT INTO ExchangeOffer (TextbookID, UserID, ConditionState, Price) VALUES
@@ -165,4 +167,5 @@ INSERT INTO EventParticipation (UserID, EventID, Role) VALUES
 (3, 1, 'Volunteer');
 
 
-SELECT * ExchangeOffer;
+SELECT *
+FROM ExchangeOffer;
