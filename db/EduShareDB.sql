@@ -130,6 +130,11 @@ INSERT INTO Wishlist (UserID, Name) VALUES
 (1, 'My Favorite Textbooks'),
 (2, 'Study Materials');
 
+INSERT INTO WishlistItem (WishlistID, TextbookID) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2);
 
 INSERT INTO ExchangeOffer (TextbookID, UserID, ConditionState, Price) VALUES
 (1, 1, 'New', 21.00),
