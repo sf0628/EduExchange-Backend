@@ -165,7 +165,8 @@ INSERT INTO DigitalResource (UserID, Title, Format, AccessURL) VALUES
 
 
 INSERT INTO RecyclingEvent (Location, Date, Description) VALUES
-('Campus Center', '2024-04-22', 'Campus Recycling Drive');
+('Campus Center', '2024-04-22', 'Campus Recycling Drive'),
+('Clean Ocean Action', '2025-01-31', 'Beach Clean Up');
 
 
 INSERT INTO EventParticipation (UserID, EventID, Role) VALUES
