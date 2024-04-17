@@ -6,7 +6,7 @@ wishlist = Blueprint('wishlist', __name__)
 
 
 # creates an empty wishlist of items that the user can add to
-@wishlist.route('/create-wishlist', methods=['POST'])
+@wishlist.route('/create-wishlist/<int:user_id>', methods=['POST'])
 def create_wishlist(user_id):
     # Collecting data from the request JSON
     data = request.get_json()
@@ -108,15 +108,15 @@ def get_items_in_wishlist(user_id, wishlist_id):
     cursor = db.get_db().cursor()
 
     # Query to fetch all items in the specified wishlist of the user
-    cursor.execute('''
+    query = '''
         SELECT wi.TextbookID, t.Title, t.Author, t.ISBN
         FROM WishlistItem wi
         JOIN textbooks t ON wi.TextbookID = t.TextbookID
-        WHERE wi.WishlistID = %s AND EXISTS (
-            SELECT 1 FROM Wishlist w WHERE w.WishlistID = wi.WishlistID AND w.UserID = %s
-        )
-    ''', (wishlist_id, user_id))
-    
+        JOIN Wishlist w ON wi.WishlistID = w.WishlistID
+        WHERE wi.WishlistID = %s AND w.UserID = %s
+    '''
+    cursor.execute(query, (wishlist_id, user_id))
+
     # Fetch all rows from the result
     wishlist_items = cursor.fetchall()
 
