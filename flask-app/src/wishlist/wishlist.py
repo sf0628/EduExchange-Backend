@@ -6,7 +6,7 @@ wishlist = Blueprint('wishlist', __name__)
 
 
 # creates an empty wishlist of items that the user can add to
-@wishlist.route('/create-wishlist', ['POST'])
+@wishlist.route('/create-wishlist', methods=['POST'])
 def create_wishlist(user_id):
     # Collecting data from the request JSON
     data = request.get_json()
