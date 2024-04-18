@@ -6,7 +6,7 @@ wishlist = Blueprint('wishlist', __name__)
 
 
 # creates an empty wishlist of items that the user can add to
-@wishlist.route('/create-wishlist', ['POST'])
+@wishlist.route('/create-wishlist/<int:user_id>', methods=['POST'])
 def create_wishlist(user_id):
     # Collecting data from the request JSON
     data = request.get_json()
@@ -101,23 +101,27 @@ def remove_textbook_from_wishlist(user_id, wishlist_id, textbook_id):
     db.get_db().commit()
     return jsonify({'success': 'Textbook removed from wishlist successfully'}), 200
 
+
 # gets all the items in a user's wishlist
-@wishlist.route('/user-wishlist/<int:user_id>/<int:wishlist_id>', methods=['GET'])
-def get_user_wishlist(user_id, wishlist_id):
+@wishlist.route('/user-wishlist-items/<int:user_id>/<int:wishlist_id>', methods=['GET'])
+def get_items_in_wishlist(user_id, wishlist_id):
     cursor = db.get_db().cursor()
 
     # Query to fetch all items in the specified wishlist of the user
-    cursor.execute('''
+    query = '''
         SELECT wi.TextbookID, t.Title, t.Author, t.ISBN
         FROM WishlistItem wi
         JOIN textbooks t ON wi.TextbookID = t.TextbookID
-        WHERE wi.WishlistID = %s AND EXISTS (
-            SELECT 1 FROM Wishlist w WHERE w.WishlistID = wi.WishlistID AND w.UserID = %s
-        )
-    ''', (wishlist_id, user_id))
-    
+        JOIN Wishlist w ON wi.WishlistID = w.WishlistID
+        WHERE wi.WishlistID = %s AND w.UserID = %s
+    '''
+    cursor.execute(query, (wishlist_id, user_id))
+
     # Fetch all rows from the result
     wishlist_items = cursor.fetchall()
+
+    if not wishlist_items:
+        return jsonify({'message': 'No wishlist items found for this user'}), 404
 
     # Construct JSON response
     wishlist_data = []
@@ -128,6 +132,36 @@ def get_user_wishlist(user_id, wishlist_id):
             'title': title,
             'author': author,
             'isbn': isbn
+        })
+
+    return jsonify(wishlist_data), 200
+
+
+# gets all of a users wishlists
+@wishlist.route('/user-wishlist/<int:user_id>', methods=['GET'])
+def get_user_wishlist(user_id):
+    cursor = db.get_db().cursor()
+
+    # Query to fetch all items in the specified wishlist of the user
+    cursor.execute('''
+        SELECT WishlistID, Name
+        FROM Wishlist
+        WHERE UserID = %s
+    ''', (user_id,))
+    
+    # Fetch all rows from the result
+    wishlist = cursor.fetchall()
+
+    if not wishlist:
+        return jsonify({'message': 'No wishlists found for this user'}), 404
+
+    # Construct JSON response
+    wishlist_data = []
+    for item in wishlist:
+        wishlist_id, name = item
+        wishlist_data.append({
+            'wishlist_id': wishlist_id,
+            'name': name
         })
 
     return jsonify(wishlist_data), 200
