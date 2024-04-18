@@ -128,9 +128,16 @@ INSERT INTO textbooks (ISBN, Author, Title, UserID) VALUES
 
 INSERT INTO Wishlist (UserID, Name) VALUES
 (1, 'My Favorite Textbooks'),
-(2, 'Study Materials'), 
-(3, 'the best resources for learning python!');
+(2, 'The best wishlist'),
+(3, 'Study Materials');
 
+INSERT INTO WishlistItem (WishlistID, TextbookID) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2),
+(3, 1),
+(3, 2);
 
 INSERT INTO ExchangeOffer (TextbookID, UserID, ConditionState, Price) VALUES
 (1, 1, 'New', 21.00),
@@ -161,7 +168,8 @@ INSERT INTO DigitalResource (UserID, Title, Format, AccessURL) VALUES
 
 
 INSERT INTO RecyclingEvent (Location, Date, Description) VALUES
-('Campus Center', '2024-04-22', 'Campus Recycling Drive');
+('Campus Center', '2024-04-22', 'Campus Recycling Drive'),
+('Clean Ocean Action', '2025-01-31', 'Beach Clean Up');
 
 
 INSERT INTO EventParticipation (UserID, EventID, Role) VALUES

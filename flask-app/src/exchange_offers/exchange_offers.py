@@ -4,7 +4,6 @@ from src import db
 
 exchange_offers = Blueprint('exchange_offers', __name__)
 
-
 @exchange_offers.route('/all_exchange_books', methods=['GET'])
 def get_all_exchange_books():
     cursor = db.get_db().cursor()
