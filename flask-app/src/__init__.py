@@ -34,7 +34,6 @@ def create_app():
 
     # Import the various Blueprint Objects
     from src.exchange_offers.exchange_offers import exchange_offers
-    from src.textbooks.textbooks import textbooks
     from src.online_resources.online_resources import online_resources
     from src.wishlist.wishlist import wishlist
     from src.recycling_event.recycling_event import recycling_event
@@ -43,7 +42,6 @@ def create_app():
     # Register the routes from each Blueprint with the app object
     # and give a url prefix to each
     app.register_blueprint(exchange_offers, url_prefix='/eo')
-    app.register_blueprint(textbooks, url_prefix='/t')
     app.register_blueprint(online_resources, url_prefix='/o')
     app.register_blueprint(wishlist, url_prefix='/w')
     app.register_blueprint(recycling_event, url_prefix='/re')
