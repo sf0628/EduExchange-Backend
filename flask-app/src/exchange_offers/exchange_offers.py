@@ -113,5 +113,19 @@ def remove_textbook_from_exchange():
 
 
 
+@exchange_offers.route('/transactions/<int:user_id>', methods=['GET'])
+def get_transactions(user_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('''
+        SELECT ExchangeTransaction.Status, ExchangeOffer.Price, User.Name AS Requester
+        FROM ExchangeTransaction
+        JOIN ExchangeOffer ON ExchangeTransaction.OfferID = ExchangeOffer.OfferID
+        JOIN User ON ExchangeTransaction.RequesterID = User.UserID
+        WHERE ExchangeOffer.UserID = %s AND ExchangeTransaction.Status IN ('Pending', 'Accepted')
+    ''', (user_id,))
+    columns = [x[0] for x in cursor.description]
+    transactions = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    return jsonify(transactions)
+
 
 
