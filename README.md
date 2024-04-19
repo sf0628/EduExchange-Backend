@@ -48,3 +48,6 @@ Once the containers are running, you can access the AppSmith tool by following t
 - Ensure that the necessary SQL files are executed to set up the database schema and populate initial data.
 - For any issues or inquiries, please contact the team members listed above.
 
+## Demo
+- Demo located at following URL (sorry in advance for the poor quality): [https://youtu.be/_TPQKjX5T2U]
+
