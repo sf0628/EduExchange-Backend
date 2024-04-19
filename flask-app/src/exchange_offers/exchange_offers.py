@@ -4,6 +4,7 @@ from src import db
 
 exchange_offers = Blueprint('exchange_offers', __name__)
 
+# Get all existing exchange offers on the platform
 @exchange_offers.route('/all_exchange_books', methods=['GET'])
 def get_all_exchange_books():
     cursor = db.get_db().cursor()
@@ -21,7 +22,7 @@ def get_all_exchange_books():
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
-
+# get specific information about the textbooks associated with all of a user’s exchange offers
 @exchange_offers.route('/user_textbooks/<int:user_id>', methods=['GET'])
 def get_user_textbooks(user_id):
     cursor = db.get_db().cursor()
@@ -38,7 +39,7 @@ def get_user_textbooks(user_id):
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
-
+# creates an exchange offer with the given textbook
 @exchange_offers.route('/post_exchange/<int:user_id>', methods=['POST'])
 def post_exchange2(user_id):
     print("post_exchanged called")
@@ -50,7 +51,6 @@ def post_exchange2(user_id):
     title = data['Title']
     author = data['Author']
     isbn = data['ISBN']
-    # user_id = data['UserID']
     condition = data['ConditionState']
     price = data['Price']
 
@@ -68,7 +68,7 @@ def post_exchange2(user_id):
 
     return jsonify({'success': 'Exchange offer posted successfully'})
 
-
+# updates the condition of an exchange offer based on the given form data
 @exchange_offers.route('/update_condition', methods=['PUT'])
 def update_textbook_condition():
     print("Received data:", request.json)  # Debug line to check what's received
@@ -94,7 +94,8 @@ def update_textbook_condition():
         return jsonify({'error': 'No records updated, check your offer_id'}), 404
     
 
-@exchange_offers.route('/remove_textbook', methods=['DELETE'])
+# deletes an exchange offer
+@exchange_offers.route('/remove_textbook_from_exchange', methods=['DELETE'])
 def remove_textbook_from_exchange():
     offer_id = request.json.get('offer_id')
     
@@ -109,10 +110,10 @@ def remove_textbook_from_exchange():
     cursor.execute(query, (offer_id,))
     db.get_db().commit()
     
-    return jsonify({'success': 'Textbook removed successfully'}), 200
+    return jsonify({'success': 'Exchange offer removed successfully'}), 200
 
 
-
+# gets all the transactions for which the given user is the requester
 @exchange_offers.route('/transactions/<int:user_id>', methods=['GET'])
 def get_transactions(user_id):
     cursor = db.get_db().cursor()

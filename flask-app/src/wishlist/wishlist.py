@@ -24,6 +24,7 @@ def create_wishlist(user_id):
     
     return jsonify({'success': 'Wishlist created successfully'}), 201
 
+# updates a wishlists name
 @wishlist.route('/update-wishlist-name/<int:user_id>/<int:wishlist_id>', methods=['PUT'])
 def update_wishlist_name(user_id, wishlist_id):
     # Extract the new wishlist name from the request JSON

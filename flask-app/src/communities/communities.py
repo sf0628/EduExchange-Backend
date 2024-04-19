@@ -22,7 +22,7 @@ def find_exchange_communities():
 # get all sharing session information for a community
 @communities.route('/get_sharing_sessions', methods=['GET'])
 def get_sharing_sessions():
-    
+
     data = request.get_json()
     community_id = data.get('community_id')
     
@@ -180,7 +180,7 @@ def get_community_member(community_id):
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
-# Removes a member from the community
+# Removes a user from the community
 @communities.route('/remove-member', methods=['DELETE'])
 def remove_member():
     member_data = request.json
@@ -218,7 +218,7 @@ def remove_member():
         return jsonify({'error': str(e)}), 500
 
 
-# insert new community
+# creates a new community
 @communities.route('/create_community', methods=['POST'])
 def create_community():
     try:
@@ -245,7 +245,7 @@ def create_community():
         # Handle exceptions and return appropriate error response
         return jsonify({"error": str(e)}), 500
 
-# update community description
+# updates community description
 @communities.route('/update_description', methods=['PUT'])
 def update_community():
     print("Received data:", request.json)  # Debug line to check what's received
@@ -268,8 +268,8 @@ def update_community():
         return jsonify({'success': 'Description updated successfully'}), 200
     else:
         return jsonify({'error': 'No records updated, check your offer_id'}), 404
-    
-# adds new member
+
+# adds the user as a new member to a community
 @communities.route('/add-member', methods=['POST'])
 def add_member():
     member_data = request.json

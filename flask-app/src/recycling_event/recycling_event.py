@@ -62,7 +62,7 @@ def add_event_participation(user_id):
     return jsonify({'success': 'Event participation posted successfully'}), 201
 
 
-# updates event participation given a user id and participation
+# updates event participation w new role given a user id and participation
 @recycling_event.route('/update-participation/<int:user_id>', methods=['PUT'])
 def update_event_participation(user_id):
     participation_info = request.json

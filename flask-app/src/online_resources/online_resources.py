@@ -4,7 +4,7 @@ from src import db
 
 online_resources = Blueprint('online_resources', __name__)
 
-# User Story 1 -- textbooks
+# user can get textbooks that are under the given price
 @online_resources.route('/affordable_textbooks/<int:max_price>', methods=['GET'])
 def get_affordable_textbooks(max_price):
     cursor = db.get_db().cursor()
@@ -23,7 +23,7 @@ def get_affordable_textbooks(max_price):
     return jsonify(json_data)
 
 
-# User Story 2 -- textbooks
+# user can get all the textbooks that they have uploaded
 @online_resources.route('/user_textbooks/<int:user_id>', methods=['GET'])
 def get_user_textbooks(user_id):
     cursor = db.get_db().cursor()
@@ -39,7 +39,7 @@ def get_user_textbooks(user_id):
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
-# User Story 4 -- textbooks
+# user can create a new textbook associated with them 
 @online_resources.route('/add_textbook/<int:user_id>', methods=['POST'])
 def add_textbook(user_id):
     # Collecting data from the request JSON
@@ -60,6 +60,21 @@ def add_textbook(user_id):
     db.get_db().commit()
     
     return jsonify({'success': 'Textbook added successfully'}), 201
+
+# gets all textbooks available on the site
+@online_resources.route('/all-textbooks', methods=['GET'])
+def get_textbooks():
+    cursor = db.get_db().cursor()
+    cursor.execute('''
+    SELECT TextbookID, Title, Author, ISBN
+    FROM textbooks
+    ''')
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    return jsonify(json_data)
 
 # updates a textbook's information
 @online_resources.route('/update_textbook/<int:user_id>/<int:textbook_id>', methods=['PUT'])
@@ -85,7 +100,7 @@ def update_textbook_condition(user_id, textbook_id):
         return jsonify({'error': 'No records updated, check your textbook_id'}), 404
 
 
-# User Story 5 -- textbooks
+# delete a textbook associated with the given user, provided it exists
 @online_resources.route('/delete_textbook/<int:user_id>/<int:textbook_id>', methods=['DELETE'])
 def delete_textbook(user_id, textbook_id):
     cursor = db.get_db().cursor()
@@ -101,7 +116,7 @@ def delete_textbook(user_id, textbook_id):
     return jsonify({'success': 'Textbook deleted successfully'}), 200
 
 
-# view all the digital resources available on the platform
+# view all the digital resources available on the platform (aside from textbooks)
 @online_resources.route('/view-resources', methods=['GET'])
 def view_all():
     cursor = db.get_db().cursor()
