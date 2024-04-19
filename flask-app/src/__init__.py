@@ -38,6 +38,7 @@ def create_app():
     from src.online_resources.online_resources import online_resources
     from src.wishlist.wishlist import wishlist
     from src.recycling_event.recycling_event import recycling_event
+    from src.communities.communities import communities
 
     # Register the routes from each Blueprint with the app object
     # and give a url prefix to each
@@ -46,6 +47,7 @@ def create_app():
     app.register_blueprint(online_resources, url_prefix='/o')
     app.register_blueprint(wishlist, url_prefix='/w')
     app.register_blueprint(recycling_event, url_prefix='/re')
+    app.register_blueprint(communities,  url_prefix='/c')
 
     # Don't forget to return the app object
     return app
