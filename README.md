@@ -49,5 +49,5 @@ Once the containers are running, you can access the AppSmith tool by following t
 - For any issues or inquiries, please contact the team members listed above.
 
 ## Demo
-- Demo located at following URL (sorry in advance for the poor quality): [https://youtu.be/_TPQKjX5T2U]
+- Demo located at following URL (sorry in advance for the poor quality): [https://youtu.be/_TPQKjX5T2U](https://youtu.be/_TPQKjX5T2U)
 
