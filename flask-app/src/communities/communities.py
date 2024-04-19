@@ -20,8 +20,12 @@ def find_exchange_communities():
     return jsonify(json_data)
 
 # get all sharing session information for a community
-@communities.route('/get_sharing_sessions/<int:community_id>', methods=['GET'])
-def get_sharing_sessions(community_id):
+@communities.route('/get_sharing_sessions', methods=['GET'])
+def get_sharing_sessions():
+    
+    data = request.get_json()
+    community_id = data.get('community_id')
+    
     cursor = db.get_db().cursor()
     cursor.execute('''
     SELECT SharingSession.SessionID, SharingSession.Schedule, SharingSession.CommunityID, SharingSession.ResourceID
