@@ -39,21 +39,6 @@ def get_user_textbooks(user_id):
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
 
-# gets all textbooks available on the site
-@online_resources.route('/all-textbooks', methods=['GET'])
-def get_textbooks():
-    cursor = db.get_db().cursor()
-    cursor.execute('''
-    SELECT TextbookID, Title, Author, ISBN
-    FROM textbooks
-    ''')
-    column_headers = [x[0] for x in cursor.description]
-    json_data = []
-    theData = cursor.fetchall()
-    for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
-    return jsonify(json_data)
-
 # User Story 4 -- textbooks
 @online_resources.route('/add_textbook/<int:user_id>', methods=['POST'])
 def add_textbook(user_id):
@@ -76,7 +61,7 @@ def add_textbook(user_id):
     
     return jsonify({'success': 'Textbook added successfully'}), 201
 
-# updates a textbook's condition
+# updates a textbook's information
 @online_resources.route('/update_textbook/<int:user_id>/<int:textbook_id>', methods=['PUT'])
 def update_textbook_condition(user_id, textbook_id):
     updated_details = request.json
@@ -130,3 +115,4 @@ def view_all():
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
     return jsonify(json_data)
+
