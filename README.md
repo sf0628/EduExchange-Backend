@@ -2,24 +2,20 @@
 
 This repo contains a boilerplate setup for spinning up 3 Docker containers: 
 1. A MySQL 8 container for obvious reasons
-1. A Python Flask container to implement a REST API
-1. A Local AppSmith Server
+2. A Python Flask container to implement a REST API
+3. A [Local AppSmith Server](https://github.com/sf0628/EduExchange-AppSmith-UI)
 
 # EduShare Hub
 
 ## Description
 
-For our final project, we created a student sharing platform called EduShare Hub, designed to alleviate the financial burden on college students while fostering a collaborative and sustainable academic community. EduShare Hub facilitates the exchange of educational resources such as textbooks, lecture notes, and lab materials, specifically targeting the Northeastern student community. By addressing the challenges of high educational expenses and material wastage, EduShare Hub promotes sustainability and collaborative learning. Through its user-friendly interface, students can effortlessly find, share, or swap the materials they need, creating a stronger, more resourceful, and interconnected academic community.
+EduShare Hub is a student sharing platform designed to alleviate the financial burden on college students while fostering a collaborative and sustainable academic community. EduShare Hub facilitates the exchange of educational resources such as textbooks, lecture notes, and lab materials, specifically targeting the Northeastern student community. By addressing the challenges of high educational expenses and material wastage, EduShare Hub promotes sustainability and collaborative learning. Through its user-friendly interface, students can effortlessly find, share, or swap the materials they need, creating a stronger, more resourceful, and interconnected academic community.
 
 ## Team Information
 
-**Team Name:** EduExchange
-
-**Team Members and Contact Information:**
-
+- Sophia Fu: fu.so@northeastern.edu
 - Nozomi Kaneda: kaneda.n@northeastern.edu
 - Sanjana Singhania: singhania.sa@northeastern.edu
-- Sophia Fu: fu.so@northeastern.edu
 - Rhea Kallely: kallely.r@northeastern.edu
 
 ## Setting Up the Project
@@ -49,5 +45,5 @@ Once the containers are running, you can access the AppSmith tool by following t
 - For any issues or inquiries, please contact the team members listed above.
 
 ## Demo
-- Demo located at following URL (sorry in advance for the poor quality): [https://youtu.be/_TPQKjX5T2U](https://youtu.be/_TPQKjX5T2U)
+- Demo located at following URL: [https://youtu.be/_TPQKjX5T2U](https://youtu.be/_TPQKjX5T2U)
 
